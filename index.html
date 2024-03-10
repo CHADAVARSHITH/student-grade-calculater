@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #gradeForm, #gradeSummary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            padding: 0.5rem 2rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #gradeList, #averageGrade {
+            margin-top: 1rem;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        #gradeList li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        @media screen and (min-width: 480px) {
+            #gradeForm, #gradeSummary {
+                width: 450px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="gradeSummary">
+        <h1>Student Grade Calculator</h1>
+        <form id="gradeForm">
+            <label for="assignment">Assignment:</label>
+            <input type="text" id="assignment" name="assignment" required>
+            <br>
+            <label for="grade">Grade:</label>
+            <input type="number" id="grade" name="grade" min="0" max="100" required>
+            <br>
+            <button type="submit">Add Grade</button>
+        </form>
+        <h2>Grade Summary:</h2>
+        <ul id="gradeList"></ul>
+        <h2>Average Grade:</h2>
+        <p id="averageGrade"></p>
+    </div>
+
+    <script>
+        const gradeForm = document.getElementById('gradeForm');
+        const gradeList = document.getElementById('gradeList');
+        const averageGrade = document.getElementById('averageGrade');
+
+        let grades = [];
+
+        gradeForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const assignment = document.getElementById('assignment').value;
+            const grade = parseInt(document.getElementById('grade').value);
+
+            const gradeItem = document.createElement('li');
+            gradeItem.textContent = `${assignment}: ${grade}`;
+            gradeList.appendChild(gradeItem);
+
+            grades.push(grade);
+
+            const average = calculateAverage(grades);
+            averageGrade.textContent = `Average Grade: ${average}`;
+        });
+
+        function calculateAverage(array) {
+            const sum = array.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+            const average = sum / array.length;
+            return average.toFixed(2);
+        }
+    </script>
+</body>
+</html>
